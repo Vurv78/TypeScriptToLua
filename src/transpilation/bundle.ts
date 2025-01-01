@@ -9,7 +9,12 @@ import { getEmitOutDir, getEmitPathRelativeToOutDir, getProjectRoot } from "./tr
 import { EmitFile, ProcessedFile } from "./utils";
 
 const createModulePath = (pathToResolve: string, program: ts.Program) =>
-    escapeString(formatPathToLuaPath(trimExtension(getEmitPathRelativeToOutDir(pathToResolve, program))));
+    escapeString(
+        formatPathToLuaPath(
+            trimExtension(getEmitPathRelativeToOutDir(pathToResolve, program)),
+            program.getCompilerOptions()
+        )
+    );
 
 // Override `require` to read from ____modules table.
 function requireOverride(options: CompilerOptions) {

@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import * as nativeAssert from "assert";
 import * as path from "path";
+import { CompilerOptions, LuaTarget } from "./CompilerOptions";
 
 export function castArray<T>(value: T | T[]): T[];
 export function castArray<T>(value: T | readonly T[]): readonly T[];
@@ -38,8 +39,13 @@ export const createSerialDiagnosticFactory = <T extends DiagnosticFactory>(creat
 export const normalizeSlashes = (filePath: string) => filePath.replace(/\\/g, "/");
 export const trimExtension = (filePath: string) => filePath.slice(0, -path.extname(filePath).length);
 
-export function formatPathToLuaPath(filePath: string): string {
+export function formatPathToLuaPath(filePath: string, options: CompilerOptions): string {
     filePath = filePath.replace(/\.json$/, "");
+
+    if (options.luaTarget === LuaTarget.Luau) {
+        return filePath;
+    }
+
     if (process.platform === "win32") {
         // Windows can use backslashes
         filePath = filePath.replace(/\.\\/g, "").replace(/\\/g, ".");

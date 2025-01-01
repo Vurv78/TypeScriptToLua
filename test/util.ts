@@ -503,7 +503,7 @@ end)());`;
             extension = `.${extension}`;
         }
         const modName = fileName.endsWith(extension)
-            ? formatPathToLuaPath(fileName.substring(0, fileName.length - extension.length))
+            ? formatPathToLuaPath(fileName.substring(0, fileName.length - extension.length), this.options)
             : fileName;
         if (this.options.luaTarget === tstl.LuaTarget.Lua50) {
             // Adding source Lua to the _LOADED cache will allow require to find it
